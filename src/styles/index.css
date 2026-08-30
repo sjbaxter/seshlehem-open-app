@@ -1,0 +1,48 @@
+@import "tailwindcss";
+
+@theme {
+  --color-fairway-950: #0b2d22;
+  --color-fairway-900: #123c2d;
+  --color-fairway-700: #1e6046;
+  --color-fairway-100: #dcebe3;
+  --color-cream: #f6f4ed;
+  --font-sans: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+
+:root {
+  color: #17251f;
+  background: var(--color-cream);
+  font-family: var(--font-sans);
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+}
+
+* { box-sizing: border-box; }
+
+body { margin: 0; min-width: 320px; min-height: 100vh; }
+
+button, a { -webkit-tap-highlight-color: transparent; }
+
+.app-shell { min-height: 100vh; background: var(--color-cream); padding-bottom: calc(5.5rem + env(safe-area-inset-bottom)); }
+
+.app-header { background: var(--color-fairway-900); color: white; padding: 2.25rem 1.25rem 3.5rem; }
+.app-header h1 { margin: .2rem 0 .35rem; font-size: clamp(1.8rem, 8vw, 2.4rem); line-height: 1.05; letter-spacing: -.03em; }
+.app-header__kicker, .eyebrow { margin: 0; font-size: .72rem; font-weight: 800; letter-spacing: .14em; text-transform: uppercase; }
+.app-header__kicker { color: #b8d7c6; }
+.app-header__status { margin: 0; color: #dcebe3; }
+
+.app-content { width: min(100% - 2rem, 42rem); margin: -2rem auto 0; }
+.content-card { min-height: 14rem; border: 1px solid rgb(18 60 45 / 8%); border-radius: 1.25rem; background: white; box-shadow: 0 12px 32px rgb(11 45 34 / 10%); padding: 1.5rem; }
+.content-card h2 { margin: .45rem 0 .65rem; color: var(--color-fairway-950); font-size: 1.55rem; }
+.content-card p:last-child { max-width: 34rem; margin: 0; color: #53635c; line-height: 1.6; }
+.eyebrow { color: var(--color-fairway-700); }
+
+.bottom-nav { position: fixed; z-index: 10; right: 0; bottom: 0; left: 0; display: grid; grid-template-columns: repeat(5, 1fr); min-height: 4.75rem; padding: .45rem max(.35rem, env(safe-area-inset-right)) calc(.45rem + env(safe-area-inset-bottom)) max(.35rem, env(safe-area-inset-left)); border-top: 1px solid #dfe5e1; background: rgb(255 255 255 / 96%); box-shadow: 0 -6px 22px rgb(11 45 34 / 8%); backdrop-filter: blur(12px); }
+.bottom-nav__item { display: flex; min-width: 0; min-height: 3.75rem; align-items: center; justify-content: center; flex-direction: column; gap: .2rem; border-radius: .75rem; color: #637069; font-size: .64rem; font-weight: 700; text-decoration: none; }
+.bottom-nav__icon { font-size: 1.35rem; line-height: 1; }
+.bottom-nav__item--active { color: var(--color-fairway-900); background: var(--color-fairway-100); }
+
+@media (min-width: 48rem) {
+  .app-header { text-align: center; }
+  .bottom-nav { right: 50%; left: auto; width: min(100%, 42rem); transform: translateX(50%); border: 1px solid #dfe5e1; border-bottom: 0; border-radius: 1.25rem 1.25rem 0 0; }
+}

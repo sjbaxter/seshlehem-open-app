@@ -2,38 +2,74 @@
 
 A lightweight, mobile-first golf trip scoring app for the **Seshlehem Open**.
 
-The first release is for a seven-player trip to Moray Golf Club, with separate Stableford competitions on the Old and New courses plus a combined overall leaderboard, birdie counter and 2s counter.
+Phase 0 establishes the React application shell and Cloudflare Worker foundation. Competition data, scoring, leaderboards and administration belong to later phases in `TECHNICAL_IMPLEMENTATION_PLAN.md`.
 
-## Implementation direction
-
-The app is intentionally small and should stay simple. The current technical recommendation is:
+## Stack
 
 - React + TypeScript + Vite
 - Tailwind CSS
-- Cloudflare Worker API
-- Cloudflare D1 database
-- Cloudflare static asset hosting
-- Vitest / React Testing Library
-- Playwright for a small number of critical mobile flows
+- React Router
+- TanStack Query
+- Cloudflare Worker and Worker Static Assets
+- Vitest + React Testing Library
 
-The target is a normal web browser on iPhone/Android and free-tier infrastructure. Vercel + Supabase and Azure are documented alternatives, but are not the default implementation.
+## Requirements
 
-## Read before coding
+- Node.js 20.19 or newer (Node.js 22 LTS is recommended)
+- pnpm 10 or newer
 
-Codex should read these files in this order:
+No Cloudflare account, D1 database or environment variables are required for Phase 0 local development.
 
-1. `GOLF_TRIP_APP_REQUIREMENTS.md` — product behaviour and scope
-2. `TECHNICAL_IMPLEMENTATION_PLAN.md` — current architecture; this **takes precedence where it differs from the older stack references in the requirements**
-3. `docs/golf-app-ui-reference.jpg` — visual direction
-4. `CODEX_START_PROMPT.md` — phased implementation instructions
-5. `AGENTS.md` — repository-level engineering rules
+## Local development
 
-## Build approach
+From the repository root:
 
-Do not build the whole application in one pass. Follow the phases in `TECHNICAL_IMPLEMENTATION_PLAN.md`, keeping the Stableford calculation as pure, well-tested TypeScript domain logic.
+```bash
+pnpm install
+pnpm dev
+```
 
-The application must remain reusable for future Seshlehem Open trips; Moray and seven players are seed data, not hard-coded assumptions.
+Open `http://localhost:5173`. The command starts both Vite and the local Wrangler Worker; Vite proxies `/api/*` to the Worker at `http://localhost:8787`.
 
-## Status
+Verify the API separately with:
 
-Repository initialised with product, UX and technical specifications. Application implementation is intended to be carried out incrementally with Codex.
+```bash
+curl http://localhost:8787/api/health
+```
+
+The response is:
+
+```json
+{"status":"ok"}
+```
+
+To run only one local process:
+
+```bash
+pnpm dev:web
+pnpm dev:api
+```
+
+Run those commands in separate terminals when using them together.
+
+## Validation
+
+```bash
+pnpm lint
+pnpm typecheck
+pnpm test
+pnpm build
+```
+
+`pnpm build` creates the frontend production assets in `dist/` and performs a dry-run Worker deployment bundle. It does not deploy or require Cloudflare credentials.
+
+## Project references
+
+Read these before substantial implementation work:
+
+1. `GOLF_TRIP_APP_REQUIREMENTS.md`
+2. `TECHNICAL_IMPLEMENTATION_PLAN.md`
+3. `docs/UI_REFERENCE.md`
+4. `AGENTS.md`
+
+The technical plan is the source of truth for architecture. Phase 1 begins only after this foundation is reviewed.
