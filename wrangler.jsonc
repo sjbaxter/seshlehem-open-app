@@ -3,6 +3,14 @@
   "name": "seshlehem-open-app",
   "main": "worker/index.ts",
   "compatibility_date": "2025-08-30",
+  "d1_databases": [
+    {
+      "binding": "DB",
+      "database_name": "seshlehem-open-db",
+      "database_id": "00000000-0000-0000-0000-000000000000",
+      "migrations_dir": "migrations"
+    }
+  ],
   "assets": {
     "directory": "./dist",
     "binding": "ASSETS",

@@ -8,13 +8,16 @@
     "dev": "concurrently -k -n web,api -c green,blue \"vite\" \"wrangler dev --local --port 8787\"",
     "dev:web": "vite",
     "dev:api": "wrangler dev --local --port 8787",
+    "db:migrate": "wrangler d1 migrations apply seshlehem-open-db --local",
+    "db:seed": "wrangler d1 execute seshlehem-open-db --local --file=./seed/moray.sql",
+    "db:setup": "pnpm db:migrate && pnpm db:seed",
     "lint": "eslint .",
     "typecheck": "tsc -b",
     "test": "vitest run --configLoader runner",
     "test:watch": "vitest --configLoader runner",
     "build": "pnpm typecheck && pnpm build:web && pnpm build:worker",
     "build:web": "vite build --configLoader runner",
-    "build:worker": "tsc -p tsconfig.worker.build.json && wrangler deploy dist-worker/index.js --dry-run --no-bundle"
+    "build:worker": "vite build --config vite.worker.config.ts --configLoader runner && wrangler deploy dist-worker/index.js --dry-run --no-bundle"
   },
   "dependencies": {
     "@tanstack/react-query": "^5.87.1",
