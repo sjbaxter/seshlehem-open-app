@@ -1,5 +1,9 @@
+import { D1GolfRepository } from './repositories/golfRepository'
+import { handleReadRoute } from './routes/readRoutes'
+
 export interface Env {
   ASSETS: Fetcher
+  DB: D1Database
 }
 
 const jsonHeaders = { 'content-type': 'application/json; charset=utf-8' }
@@ -17,7 +21,12 @@ export default {
     }
 
     if (url.pathname.startsWith('/api/')) {
-      return Response.json({ error: 'Not found' }, { status: 404, headers: jsonHeaders })
+      if (request.method !== 'GET') {
+        return Response.json({ error: 'Method not allowed' }, { status: 405, headers: jsonHeaders })
+      }
+
+      const response = await handleReadRoute(request, new D1GolfRepository(env.DB))
+      return response ?? Response.json({ error: 'Not found' }, { status: 404, headers: jsonHeaders })
     }
 
     return env.ASSETS.fetch(request)
